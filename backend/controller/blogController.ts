@@ -22,10 +22,9 @@ export const saveBlog = asyncHandler(async (req: Request, res: Response) => {
 
 export const getBlogs = asyncHandler(async (req: Request, res: Response) => {
   const { userId } = req.query;
-  console.log(userId)
 
   if (!userId) {
-    res.status(401).json("You are not authorized");
+    res.status(401).json("You are not authorized"); 
   }
 
   const blogs = await Blog.find({userId: userId}); 
@@ -36,3 +35,21 @@ export const getBlogs = asyncHandler(async (req: Request, res: Response) => {
     res.status(201).json(blogs);
   }
 });
+
+export const editBlog = asyncHandler(async (req: Request, res: Response) => {
+  const { userId, heading, subject, blog } = req.body;
+
+  if (!userId || !heading || !subject || !blog) {
+    res.status(400).json("All fields are required");
+  }
+
+  const editedBlog = await Blog.findOneAndUpdate({
+    userId,
+    heading,
+    subject,
+    blog,
+  });
+
+  console.log(editedBlog);
+  res.status(201).json(editedBlog);
+})

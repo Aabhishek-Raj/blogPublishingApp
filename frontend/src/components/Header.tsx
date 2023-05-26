@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Header = () => {
   const content = (
     <header className="bg-green-900">
@@ -28,24 +30,28 @@ const Header = () => {
         </div>
         <div className="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
           <div className="text-sm lg:flex-grow">
+            <Link to={'/'}>
             <a
               href="#responsive-header"
-              className="block mt-4 lg:inline-block lg:mt-0 text-teal-lighter hover:text-white mr-4"
+              className="block mt-4 lg:inline-block lg:mt-0 text-teal-lighter text-white hover:text-black mr-4"
             >
-              Docs
+              Home
             </a>
+            </Link>
             <a
               href="#responsive-header"
-              className="block mt-4 lg:inline-block lg:mt-0 text-teal-lighter hover:text-white mr-4"
+              className="block mt-4 lg:inline-block lg:mt-0 text-teal-lighter text-white hover:text-black mr-4"
             >
-              Examples
+              All 
             </a>
+            <Link to={'/myblog'}>
             <a
               href="#responsive-header"
-              className="block mt-4 lg:inline-block lg:mt-0 text-teal-lighter hover:text-white"
+              className="block mt-4 lg:inline-block lg:mt-0 text-teal-lighter text-white hover:text-black"
             >
-              Blog
+              My Blogs
             </a>
+            </Link>
           </div>
           <div>
             <a

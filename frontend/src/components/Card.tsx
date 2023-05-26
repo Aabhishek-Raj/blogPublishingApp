@@ -1,85 +1,62 @@
-const Card = () => {
+import { Link, useNavigate } from "react-router-dom";
+import { MouseEvent } from 'react'
 
-    const content = (
-        <div className="h-screen flex items-center justify-center bg-gray-200">
-          <div className="bg-white p-8 w-[32rem]">
-            <header className="flex font-light text-sm">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 rotate-90 -ml-2"
-                viewBox="0 0 24 24"
-                stroke="#b91c1c"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M20 12H4"
-                />
-              </svg>
-              <p>TECH BLOG</p>
-            </header>
-    
-            <h2 className="font-bold text-3xl mt-2">
-              Rapi
-            </h2>
-    
-            <p className="mt-5">
-              By:
-              <a href="#" className="text-red-600">
-                {" "}
-                Ankush Gulati{" "}
-              </a>
-              ,
-              <a href="#" className="text-red-600">
-                {" "}
-                David Gevorkyan{" "}
-              </a>
+type CardProp = {
+  blog: BlogType;
+};
+
+const Card = ({ blog }: CardProp) => {
+
+const navigate = useNavigate()
+
+  const content = (
+    <a
+      className="relative block p-8 overflow-hidden border bg-white border-slate-100 rounded-lg mb-6 ml-6 mr-6"
+      href=""
+    >
+      <div className="justify-between sm:flex">
+        <div>
+          <h5 className="text-xl font-bold text-slate-900">{blog.heading}</h5>
+          <div className="bg-yellow-200 py-1.5 px-6 rounded-full">
+            <p className="focus:outline-none text-xs text-yellow-700">
+              {blog.status}
             </p>
-    
-            <p>
-              Additional credits:
-              <a href="#" className="text-red-600">
-                {" "}
-                Michael Clark{" "}
-              </a>
-              ,
-              <a href="#" className="text-red-600">
-                {" "}
-                Gokhan Ozer{" "}
-              </a>
-            </p>
-    
-            <h3 className="font-bold text-xl mt-8"> Intro </h3>
-            <p className="font-light">
-              {" "}
-              Netflix has more than 220 million active members who perform a variety
-              of actions throughout each session, ranging from renaming a profile to
-              watchi...{" "}
-            </p>
-    
-            <button className="bg-red-600 text-white font-semibold py-2 px-5 text-sm mt-6 inline-flex items-center group">
-              <p> READ MORE </p>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-4 w-4 ml-1 group-hover:translate-x-2 delay-100 duration-200 ease-in-out"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </button>
           </div>
+          <p className="mt-1 text-xs font-medium text-red-700">
+            {blog.subject}
+          </p>
         </div>
-      );
+      </div>
 
-  return content
-}
+      <div className="mt-4 sm:pr-8">
+        <p className="text-sm text-slate-500">{blog.blog}</p>
+      </div>
 
-export default Card
+      <dl className="flex mt-6">
+        <div className="flex flex-col-reverse">
+          <button
+            className="shadow bg-green-900 hover:bg-green-950 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+            type="button"
+          >
+            Delete
+          </button>
+        </div>
+
+        <div className="flex flex-col-reverse ml-3 sm:ml-6">
+          <Link to={`/editblog/${blog._id}`}>
+          <button 
+            className="shadow bg-green-900 hover:bg-green-950 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+            type="button"
+          >
+            Edit
+          </button>
+          </Link>
+        </div>
+      </dl>
+    </a>
+  );
+
+  return content;
+};
+
+export default Card;

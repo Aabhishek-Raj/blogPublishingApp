@@ -36,6 +36,15 @@ export const getBlogs = createAsyncThunk('blog/getBlog', async (_, thunkApi: any
         console.log(err.response.data)       
     }
 })
+
+export const editBlog = createAsyncThunk('blog/editblog', async (blog: BlogDataType) => {
+    try {
+        return await blogService.editBlog(blog)
+    } catch(err: any) {
+        console.error(err.response)
+    }
+})
+
 export const blogSlice = createSlice({
     name: 'blog',
     initialState,
@@ -54,7 +63,7 @@ export const blogSlice = createSlice({
             .addCase(saveBlog.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.isSuccess = true
-                state.blog?.push(action.payload.data)
+                state.blog?.push(action.payload)
             })
             .addCase(saveBlog.rejected, (state) => {
                 state.isLoading = false
@@ -67,7 +76,7 @@ export const blogSlice = createSlice({
             .addCase(getBlogs.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.isSuccess = true
-                state.blog = action.payload.data
+                state.blog = action.payload
             })
             .addCase(getBlogs.rejected, (state) => {
                 state.isLoading = false

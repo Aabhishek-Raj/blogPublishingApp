@@ -15,18 +15,14 @@ const MyBlog = () => {
 
   useEffect(() => {
     dispatch(getBlogs());
-  }, []);
-  console.log(blog)
+  }, [dispatch]);
 
   const content = (
-    <div className="flex gap-4 items-center justify-center bg-gray-200">
-      {/* {blog && blog.map((each) => (
+    <div className="m-20 ">
+      {blog && blog.map((each) => (
         <Card key={each._id} blog={each} />
-      ))} */}
-      <Card />
-      <Card />
-      <Card />
-      <Card />
+        
+      ))}
     </div>
   );
 

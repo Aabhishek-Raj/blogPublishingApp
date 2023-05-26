@@ -5,6 +5,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import AddBlog from "./pages/AddBlog";
 import MyBlog from "./pages/MyBlog";
+import EditBlog from "./pages/EditBlog";
 
 function App() {
   const content = (
@@ -16,6 +17,7 @@ function App() {
           <Route path="signup" element={<SignUp />} />
           <Route path="addblog" element={<AddBlog />} />
           <Route path="myblog" element={<MyBlog/>} />
+          <Route path="editblog/:id" element={<EditBlog/>} />
         </Route>
       </Routes>
     </div>

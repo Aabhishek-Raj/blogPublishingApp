@@ -20,13 +20,22 @@ const getBlogs = async (userId: any) => {
     if (response.data){
         localStorage.setItem('blog', JSON.stringify(response.data))
     }
-    console.log(response.data)
+    return response.data
+}
+
+const editBlog = async (blogData: BlogDataType) => {
+    const response = await axios.put(API_URL + "editblog", blogData) 
+
+    if(response.data) {
+        localStorage.setItem('blog', JSON.stringify(response.data))
+    }
     return response.data
 }
 
 const blogService = { 
     saveBlog, 
-    getBlogs
+    getBlogs,
+    editBlog
 }
 
 export default blogService 
