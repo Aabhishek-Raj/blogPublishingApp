@@ -8,6 +8,7 @@ export const signupUser = asyncHandler(async (req: Request, res: Response) => {
 
   if (!name || !password) {
     res.status(400).json("all fields are required");
+    return;
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -22,12 +23,12 @@ export const signupUser = asyncHandler(async (req: Request, res: Response) => {
 
 export const signinUser = asyncHandler(async (req: Request, res: Response) => {
   const { name, password } = req.body;
-  console.log(name);
 
   const oldUser = await User.findOne({ name });
 
   if (!oldUser) {
     res.status(400).json("You are not an user");
+    return;
   }
 
   if (await bcrypt.compare(password, oldUser!.password)) {

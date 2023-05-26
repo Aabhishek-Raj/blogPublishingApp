@@ -1,8 +1,8 @@
-import { useState, ChangeEvent, MouseEvent, useEffect } from "react";
+import { useState, ChangeEvent, MouseEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { AppDispatch, RootState } from "../redux/store";
-import { editBlog, filteredBlog } from "../features/blog/blogSlice";
+import { editBlog } from "../features/blog/blogSlice";
 
 export type BlogDataType = {
   userId: string;
@@ -12,36 +12,36 @@ export type BlogDataType = {
 };
 
 const EditBlog = () => {
-  
-      const navigate = useNavigate();
-      const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
+  const dispatch: AppDispatch = useDispatch();
 
   // useEffect(() => {
   //   dispatch(getBlogs());
   // }, [dispatch]);
 
-    const { blog, isLoading, isError, isSuccess } = useSelector(
-        (state: RootState) => state.blog
-      );
-      const { id } = useParams();
+  const { blog, isLoading, isError, isSuccess } = useSelector(
+    (state: RootState) => state.blog
+  );
+  const { id } = useParams();
 
-      const filteredBlog: BlogType | undefined = blog?.find((each) => each._id == id )
-      console.log(filteredBlog)
+  const filteredBlog: BlogType | undefined = blog?.find(
+    (each) => each._id == id
+  );
+  console.log(filteredBlog);
 
-    // useEffect(() => {
-    //     dispatch(getEditBlog())
-    // }, [dispatch])
+  // useEffect(() => {
+  //     dispatch(getEditBlog())
+  // }, [dispatch])
 
-  const [heading, setHeading] = useState(filteredBlog?.heading)
-  const [subject, setSubject] = useState(filteredBlog?.subject)
-  const [blogdata, setBlogdata] = useState(filteredBlog?.blog)
+  const [heading, setHeading] = useState(filteredBlog?.heading);
+  const [subject, setSubject] = useState(filteredBlog?.subject);
+  const [blogdata, setBlogdata] = useState(filteredBlog?.blog);
 
+  //   const { user, isLoading, isError, isSuccess } = useSelector(
+  //     (state: RootState) => state.user
+  //   );
 
-//   const { user, isLoading, isError, isSuccess } = useSelector(
-//     (state: RootState) => state.user
-//   );
-
-const headingChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const headingChange = (e: ChangeEvent<HTMLInputElement>) => {
     setHeading(e.target.value);
   };
 
@@ -53,11 +53,17 @@ const headingChange = (e: ChangeEvent<HTMLInputElement>) => {
     setBlogdata(e.target.value);
   };
 
-  const onSubmit = (e: MouseEvent<HTMLButtonElement>) => {
+  const onSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    if (!filteredBlog || !filteredBlog.userId || !heading || !subject || !blogdata) {
-      return 
+    if (
+      !filteredBlog ||
+      !filteredBlog.userId ||
+      !heading ||
+      !subject ||
+      !blogdata
+    ) {
+      return;
     }
 
     const updatedBlogData: BlogDataType = {
@@ -66,8 +72,12 @@ const headingChange = (e: ChangeEvent<HTMLInputElement>) => {
       subject,
       blog: blogdata,
     };
-
-    dispatch(editBlog(updatedBlogData));
+    try {
+      await dispatch(editBlog(updatedBlogData));
+      navigate("/myblog");
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const content = (

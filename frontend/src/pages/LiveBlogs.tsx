@@ -2,11 +2,9 @@ import { useDispatch, useSelector } from "react-redux";
 import Card from "../components/Card";
 import { useEffect } from "react";
 import { AppDispatch, RootState } from "../redux/store";
-import { getBlogs } from "../features/blog/blogSlice";
-// import { useNavigate } from "react-router-dom";
+import { getLiveBlogs } from "../features/blog/blogSlice";
 
-const MyBlog = () => {
-  // const navigate = useNavigate();
+const LiveBlogs = () => {
   const dispatch: AppDispatch = useDispatch();
 
   const { blog } = useSelector(
@@ -14,13 +12,13 @@ const MyBlog = () => {
   );
 
   useEffect(() => {
-    dispatch(getBlogs());
+    dispatch(getLiveBlogs());
   }, [dispatch]);
 
   const content = (
     <div className="m-20 ">
       {blog && blog.map((each) => (
-        <Card key={each._id} blog={each} pending={""}/>
+        <Card key={each._id} blog={each} pending={"publish"} />
         
       ))}
     </div>
@@ -29,4 +27,4 @@ const MyBlog = () => {
   return content;
 };
 
-export default MyBlog;
+export default LiveBlogs;

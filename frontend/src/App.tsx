@@ -6,6 +6,12 @@ import SignUp from "./pages/SignUp";
 import AddBlog from "./pages/AddBlog";
 import MyBlog from "./pages/MyBlog";
 import EditBlog from "./pages/EditBlog";
+import AdminLayout from "./layouts/AdminLayout";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminSignIn from "./pages/AdminSignIn";
+import PendingBlogs from "./pages/PendingBlogs";
+import LiveBlogs from "./pages/LiveBlogs";
+import AddReason from "./pages/AddReason";
 
 function App() {
   const content = (
@@ -18,6 +24,14 @@ function App() {
           <Route path="addblog" element={<AddBlog />} />
           <Route path="myblog" element={<MyBlog/>} />
           <Route path="editblog/:id" element={<EditBlog/>} />
+        </Route>
+
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<AdminDashboard  />} />
+          <Route path="signin" element={<AdminSignIn />} />
+          <Route path="pending" element={<PendingBlogs />} />
+          <Route path="live" element={<LiveBlogs />} />
+          <Route path="reason/:blogId" element={<AddReason/>} />
         </Route>
       </Routes>
     </div>

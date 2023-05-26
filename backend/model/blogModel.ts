@@ -5,13 +5,14 @@ interface BlogDoc extends mongoose.Document {
   heading: string;
   subject: string;
   blog: string;
+  rejectedReason?: string;
 }
 
 const blogSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     required: [true, "not allowed"],
-    ref: "User"
+    ref: "User",
   },
   heading: {
     type: String,
@@ -27,7 +28,10 @@ const blogSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    default: "Pending"
+    default: "Pending",
+  },
+  rejectedReason: {
+    type: String,
   },
 });
 

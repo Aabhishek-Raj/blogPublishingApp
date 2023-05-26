@@ -3,6 +3,11 @@ interface UserType {
     name: string
 }
 
+interface AdminType {
+    _id: string
+    name: string
+}
+
 interface BlogType {
     _id: string
     userId: string

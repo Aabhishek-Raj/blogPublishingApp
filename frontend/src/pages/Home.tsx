@@ -34,7 +34,7 @@ const Home = () => {
     }));
   };
 
-  const onSubmit = (e: MouseEvent<HTMLButtonElement>) => {
+  const onSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     if (!user) {
@@ -48,7 +48,13 @@ const Home = () => {
       blog,
     };
 
-    dispatch(saveBlog(blogData));
+    try {
+      await dispatch(saveBlog(blogData));
+      navigate('/myblog')
+      
+    } catch (error) {
+      console.error(error)
+    }
   };
 
   const content = (

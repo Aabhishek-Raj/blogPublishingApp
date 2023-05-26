@@ -32,10 +32,40 @@ const editBlog = async (blogData: BlogDataType) => {
     return response.data
 }
 
+const getPendingBlogs = async () => {
+    const response = await axios.get(API_URL + "getpendingblogs")
+    return response.data
+}
+
+const getLiveBlogs = async () => {
+    const response = await axios.get(API_URL + "getliveblogs")
+    return response.data
+}
+
+const publishBlog = async (blogId: any) => {
+        const response = await axios.get(API_URL + "publishblog", { params: { blogId }})
+        return response.data
+}
+
+const deleteBlog = async (blogId: any) => {
+        const response = await axios.get(API_URL + "deleteblog", { params: { blogId }})
+        return response.data
+}
+
+const rejectBlog = async (rejectData: any) => {
+        const response = await axios.post(API_URL + "rejectblog", rejectData)
+        return response.data
+}
+
 const blogService = { 
     saveBlog, 
     getBlogs,
-    editBlog
+    editBlog,
+    getPendingBlogs,
+    publishBlog,
+    getLiveBlogs,
+    deleteBlog,
+    rejectBlog
 }
 
 export default blogService 

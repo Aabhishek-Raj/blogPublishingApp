@@ -22,7 +22,7 @@ const initialState: BlogState = {
 //getBlogs the blog
 export const saveBlog = createAsyncThunk('blog/saveblog', async (blog: BlogDataType) => {
     try {
-        return await blogService.getBlogs(blog)
+        return await blogService.saveBlog(blog)
     } catch (err: any) {
         console.log(err.response.data)
     }
@@ -44,6 +44,47 @@ export const editBlog = createAsyncThunk('blog/editblog', async (blog: BlogDataT
         console.error(err.response)
     }
 })
+
+export const getPendingBlogs = createAsyncThunk('blog/getpendingblogs', async () => {
+    try {
+        return await blogService.getPendingBlogs()
+    } catch (err: any) {
+        console.error(err.response)
+    }
+})
+
+export const getLiveBlogs = createAsyncThunk('blog/getliveblogs', async () => {
+    try {
+        return await blogService.getLiveBlogs()
+    } catch (err: any) {
+        console.error(err.response)
+    }
+})
+
+export const publishBlog = createAsyncThunk('blog/publishblog', async (blogId: any) => {
+    try {
+        return await blogService.publishBlog(blogId)
+    } catch (err: any) {
+        console.error(err.response)
+    }
+})
+
+export const deleteBlog = createAsyncThunk('blog/deleteblog', async (blogId: any) => {
+    try {
+        return await blogService.deleteBlog(blogId)
+    } catch (err: any) {
+        console.error(err.response)
+    }
+})
+
+export const rejectBlog = createAsyncThunk('blog/rejectblog', async (rejectData: any) => {
+    try {
+        return await blogService.rejectBlog(rejectData)
+    } catch (err: any) {
+        console.error(err.response)
+    }
+})
+
 
 export const blogSlice = createSlice({
     name: 'blog',
@@ -79,6 +120,45 @@ export const blogSlice = createSlice({
                 state.blog = action.payload
             })
             .addCase(getBlogs.rejected, (state) => {
+                state.isLoading = false
+                state.isError = true,
+                state.blog = null
+            })
+            .addCase(getPendingBlogs.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(getPendingBlogs.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.blog = action.payload
+            })
+            .addCase(getPendingBlogs.rejected, (state) => {
+                state.isLoading = false
+                state.isError = true,
+                state.blog = null
+            })
+            .addCase(getLiveBlogs.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(getLiveBlogs.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.blog = action.payload
+            })
+            .addCase(getLiveBlogs.rejected, (state) => {
+                state.isLoading = false
+                state.isError = true,
+                state.blog = null
+            })
+            .addCase(deleteBlog.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(deleteBlog.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.blog = action.payload
+            })
+            .addCase(deleteBlog.rejected, (state) => {
                 state.isLoading = false
                 state.isError = true,
                 state.blog = null

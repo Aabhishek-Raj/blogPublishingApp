@@ -1,14 +1,25 @@
 import { Link, useNavigate } from "react-router-dom";
-import { MouseEvent } from 'react'
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../redux/store";
+import { deleteBlog, publishBlog } from "../features/blog/blogSlice";
 
 type CardProp = {
   blog: BlogType;
+  pending: string
 };
 
-const Card = ({ blog }: CardProp) => {
+const Card = ({ blog, pending }: CardProp) => {
 
 const navigate = useNavigate()
+const dispatch: AppDispatch = useDispatch()
 
+const handleBlog = async (blogId: any, action: string) => {
+  if(action === "Publish") {
+   await dispatch(publishBlog(blogId))
+  } else {
+    navigate(`/admin/reason/${blogId}`)
+  }
+}
   const content = (
     <a
       className="relative block p-8 overflow-hidden border bg-white border-slate-100 rounded-lg mb-6 ml-6 mr-6"
@@ -31,10 +42,36 @@ const navigate = useNavigate()
       <div className="mt-4 sm:pr-8">
         <p className="text-sm text-slate-500">{blog.blog}</p>
       </div>
+      {
+        pending === "pending" ? (
+          <dl className="flex mt-6">
+        <div className="flex flex-col-reverse">
+          <button
+          onClick={() => handleBlog(blog._id, "Reject")}
+            className="shadow bg-green-900 hover:bg-green-950 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+            type="button"
+          >
+            Reject
+          </button>
+        </div>
+
+        <div className="flex flex-col-reverse ml-3 sm:ml-6">
+          <button 
+          onClick={() => handleBlog(blog._id, "Publish")}
+            className="shadow bg-green-900 hover:bg-green-950 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+            type="button"
+          >
+            Publish
+          </button>
+        </div>
+      </dl>
+
+        ): pending == "publish" ? (
 
       <dl className="flex mt-6">
         <div className="flex flex-col-reverse">
           <button
+          onClick={() => dispatch(deleteBlog(blog._id))}
             className="shadow bg-green-900 hover:bg-green-950 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
             type="button"
           >
@@ -42,17 +79,33 @@ const navigate = useNavigate()
           </button>
         </div>
 
-        <div className="flex flex-col-reverse ml-3 sm:ml-6">
-          <Link to={`/editblog/${blog._id}`}>
-          <button 
-            className="shadow bg-green-900 hover:bg-green-950 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-            type="button"
-          >
-            Edit
-          </button>
-          </Link>
-        </div>
       </dl>
+        ): (
+          <dl className="flex mt-6">
+          <div className="flex flex-col-reverse">
+            <button
+            
+              className="shadow bg-green-900 hover:bg-green-950 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+              type="button"
+            >
+              Delete
+            </button>
+          </div>
+  
+          <div className="flex flex-col-reverse ml-3 sm:ml-6">
+            <Link to={`/editblog/${blog._id}`}>
+            <button 
+              className="shadow bg-green-900 hover:bg-green-950 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+              type="button"
+            >
+              Edit
+            </button>
+            </Link>
+          </div>
+        </dl>
+        )
+      }
+
     </a>
   );
 
@@ -60,3 +113,7 @@ const navigate = useNavigate()
 };
 
 export default Card;
+
+
+
+
