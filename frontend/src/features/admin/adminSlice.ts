@@ -37,6 +37,20 @@ export const getAllUsers = createAsyncThunk('admin/getallusers', async () => {
         console.log(err.response.data)
     }
 })
+
+export type BlockUserArg = {
+    userId: string;
+    action: 'BLOCK' | 'UNBLOCK';
+  };
+
+export const blockUser = createAsyncThunk('admin/blockuser', async (manage: BlockUserArg) => {
+    try {
+        return await adminService.blockUser(manage)
+    } catch (err: any) {
+        console.log(err.response.data)
+    }
+})
+
 export const adminSlice = createSlice({
     name: 'admin',
     initialState,

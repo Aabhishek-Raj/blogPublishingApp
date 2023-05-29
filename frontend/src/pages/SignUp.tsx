@@ -3,19 +3,24 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch } from "react-redux";
 import { signUp } from "../features/user/userSlice";
 import { AppDispatch } from "../redux/store";
+import { toast } from "react-toastify";
 
-export type UserDataType = {
+export type SignUpDataType = {
   name: string;
+  email: string
+  phone: number
   password: string;
 };
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
     name: "",
+    email: "",
+    phone: 0,
     password: "",
   });
 
-  const { name, password } = formData;
+  const { name, email, phone, password } = formData;
 
   const navigate = useNavigate()
   const dispatch: AppDispatch = useDispatch()
@@ -32,10 +37,20 @@ const SignUp = () => {
 
     const userData = {
       name,
+      email,
+      phone,
       password,
     };
 
-    dispatch(signUp(userData))
+    try {
+  
+      dispatch(signUp(userData))
+      navigate('/')
+      toast.success("Registered Successfully")
+    } catch (err: any) {
+      console.error(err)
+      toast.error(err.response.data);
+    }
   };
 
   const content = (
@@ -53,7 +68,35 @@ const SignUp = () => {
               onChange={onChange}
               id="username"
               className="bg-green-100 text-gray-800 pl-12 py-2 md:py-4 focus:outline-none w-full"
-              placeholder="Username"
+              placeholder="Username*"
+            />
+          </div>
+          <div className="flex items-center text-lg mb-6 md:mb-8">
+            <svg className="absolute ml-3" width="24" viewBox="0 0 24 24">
+              <path d="M20.822 18.096c-3.439-.794-6.64-1.49-5.09-4.418 4.72-8.912 1.251-13.678-3.732-13.678-5.082 0-8.464 4.949-3.732 13.678 1.597 2.945-1.725 3.641-5.09 4.418-3.073.71-3.188 2.236-3.178 4.904l.004 1h23.99l.004-.969c.012-2.688-.092-4.222-3.176-4.935z" />
+            </svg>
+            <input
+              type="text"
+              name="email"
+              value={email}
+              onChange={onChange}
+              id="username"
+              className="bg-green-100 text-gray-800 pl-12 py-2 md:py-4 focus:outline-none w-full"
+              placeholder="Email*"
+            />
+          </div>
+          <div className="flex items-center text-lg mb-6 md:mb-8">
+            <svg className="absolute ml-3" width="24" viewBox="0 0 24 24">
+              <path d="M20.822 18.096c-3.439-.794-6.64-1.49-5.09-4.418 4.72-8.912 1.251-13.678-3.732-13.678-5.082 0-8.464 4.949-3.732 13.678 1.597 2.945-1.725 3.641-5.09 4.418-3.073.71-3.188 2.236-3.178 4.904l.004 1h23.99l.004-.969c.012-2.688-.092-4.222-3.176-4.935z" />
+            </svg>
+            <input
+              type="number"
+              name="phone"
+              value={phone}
+              onChange={onChange}
+              id="username"
+              className="bg-green-100 text-gray-800 pl-12 py-2 md:py-4 focus:outline-none w-full"
+              placeholder="Phone No*"
             />
           </div>
           <div className="flex items-center text-lg mb-6 md:mb-8">
@@ -67,7 +110,7 @@ const SignUp = () => {
               onChange={onChange}
               id="password"
               className="bg-green-100 text-gray-800 pl-12 py-2 md:py-4 focus:outline-none w-full"
-              placeholder="Password"
+              placeholder="Password*"
             />
           </div>
           <button

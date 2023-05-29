@@ -1,6 +1,11 @@
 interface UserType {
     _id: string
     name: string
+    email: string
+    phone: number
+    role: "ADMIN" | "USER"
+    isActive: boolean
+    token: string
 }
 
 interface AdminType {

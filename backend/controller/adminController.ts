@@ -48,3 +48,22 @@ export const getAllUsers = asyncHandler(async (req: Request, res: Response) => {
   }
   res.status(201).json(users);
 });
+
+export const blockUser = asyncHandler( async(req: Request, res: Response) => {
+  const { userId, action } = req.body
+
+  if(!userId || !action) {
+    res.status(400).json("You are not authorised")
+    return
+  }
+  
+  if(action === "BLOCK") {
+    const blockedUser = await User.findByIdAndUpdate(userId, {isActive: false})
+    res.status(200).json(blockUser)
+    return
+  }
+  if(action === "UNBLOCK") {
+    
+  }
+  res.send({ })
+})

@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { AdminDataType } from '../../pages/AdminSignIn'
+import { BlockUserArg } from './adminSlice'
 
 const API_URL = 'http://localhost:5000/api/admin/'
 
@@ -10,7 +11,7 @@ const signUp = async (adminData: AdminDataType) => {
     if (response.data){
         localStorage.setItem('admin', JSON.stringify(response.data))
     }
-    return response.data
+    return response.data    
 }
 
 //get all users
@@ -23,11 +24,18 @@ const getAllUsers = async () => {
     return response.data
 }
 
+const blockUser = async (manage: BlockUserArg) => {
+    const response = await axios.patch(API_URL + "blockuser", manage)
+
+    return response.data
+}
+
 
 
 const adminService = { 
     signUp, 
-    getAllUsers
+    getAllUsers,
+    blockUser
 }
 
 export default adminService

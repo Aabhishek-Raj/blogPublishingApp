@@ -1,21 +1,17 @@
 import { ChangeEvent, MouseEvent, useState } from "react";
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from "react-redux";
-import { adminSignUp } from "../features/admin/adminSlice";
 import { AppDispatch } from "../redux/store";
-
-export type AdminDataType = {
-  name: string;
-  password: string;
-};
+import { adminSignIn } from "../features/user/userSlice";
+import { toast } from "react-toastify";
 
 const AdminSignIn = () => {
   const [formData, setFormData] = useState({
-    name: "",
+    email: "",
     password: "",
   });
 
-  const { name, password } = formData;
+  const { email, password } = formData;
 
   const navigate = useNavigate()
   const dispatch: AppDispatch = useDispatch()
@@ -31,14 +27,16 @@ const AdminSignIn = () => {
     e.preventDefault();
 
     const adminData = {
-      name,
+      email,
       password,
     };
 
     try {
-        await dispatch(adminSignUp(adminData))
+        await dispatch(adminSignIn(adminData))
         navigate('/admin')
-    } catch (err) {
+        toast.success("Login sucessfully")
+    } catch (err: any) {
+        toast.error(err.data)
         console.error(err)
     }
   };
@@ -52,13 +50,13 @@ const AdminSignIn = () => {
               <path d="M20.822 18.096c-3.439-.794-6.64-1.49-5.09-4.418 4.72-8.912 1.251-13.678-3.732-13.678-5.082 0-8.464 4.949-3.732 13.678 1.597 2.945-1.725 3.641-5.09 4.418-3.073.71-3.188 2.236-3.178 4.904l.004 1h23.99l.004-.969c.012-2.688-.092-4.222-3.176-4.935z" />
             </svg>
             <input
-              type="text"
-              name="name"
-              value={name}
+              type="email"
+              name="email"
+              value={email}
               onChange={onChange}
               id="adminname"
               className="bg-green-100 text-gray-800 pl-12 py-2 md:py-4 focus:outline-none w-full"
-              placeholder="adminname"
+              placeholder="Admin Email*"
             />
           </div>
           <div className="flex items-center text-lg mb-6 md:mb-8">
@@ -72,7 +70,7 @@ const AdminSignIn = () => {
               onChange={onChange}
               id="password"
               className="bg-green-100 text-gray-800 pl-12 py-2 md:py-4 focus:outline-none w-full"
-              placeholder="Password"
+              placeholder="Admin Password*"
             />
           </div>
           <button
