@@ -51,6 +51,10 @@ export const signinUser = asyncHandler(async (req: Request, res: Response) => {
     return;
   }
 
+  if (!oldUser.isActive) {
+    res.status(400).json("You have been blocked by the admin")
+  }
+
   if (await bcrypt.compare(password, oldUser!.password)) {
     res.status(200).json({
       _id: oldUser.id,
@@ -119,11 +123,12 @@ export const blockUser = asyncHandler( async(req: Request, res: Response) => {
   
   if(action === "BLOCK") {
     const blockedUser = await User.findByIdAndUpdate(userId, {isActive: false})
-    res.status(200).json(blockUser)
+    res.status(200).json(blockedUser)
     return
   }
   if(action === "UNBLOCK") {
-    
+    const unBlockedUser = await User.findByIdAndUpdate(userId, {isActive: true})
+    res.status(200).json(unBlockedUser)
   }
-  res.send({ })
+  res.status(400).json("invalid credentials")
 })

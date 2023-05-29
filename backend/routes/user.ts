@@ -7,6 +7,6 @@ router.post("/signup", signupUser);
 router.post("/signin", signinUser);
 router.post("/adminsignin", adminSignIn);
 router.get("/getallusers", getAllUsers);
-router.patch("/blockuser", blockUser);
+router.post("/blockuser", blockUser);
 
 export default router; 

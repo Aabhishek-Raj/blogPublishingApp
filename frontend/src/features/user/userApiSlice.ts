@@ -41,7 +41,7 @@ export const userApiSlice = createApi({
             query: (body: BlockUserArg) => {
                 return {
                     url: "/blockuser",
-                    method: "patch",
+                    method: "post",
                     body
                 }
              }
