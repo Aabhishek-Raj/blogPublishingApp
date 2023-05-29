@@ -1,7 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../redux/store";
-import { deleteBlog, publishBlog } from "../features/blog/blogSlice";
+import { useDeleteBlogMutation, usePublishBlogMutation } from "../features/blog/blogApiSlice";
 
 type CardProp = {
   blog: BlogType;
@@ -10,15 +8,17 @@ type CardProp = {
 
 const Card = ({ blog, pending }: CardProp) => {
 
+  const [publishBlog] = usePublishBlogMutation()
+  const [deleteBlog] = useDeleteBlogMutation()
+
 const navigate = useNavigate()
-const dispatch: AppDispatch = useDispatch()
 
 const handleBlog = async (blogId: any, action: string) => {
   if(action === "Publish") {
-   await dispatch(publishBlog(blogId))
-  } else {
+   await publishBlog(blogId)
+  } else {  
     navigate(`/admin/reason/${blogId}`)
-  }
+  } 
 }
   const content = (
     <a
@@ -71,7 +71,7 @@ const handleBlog = async (blogId: any, action: string) => {
       <dl className="flex mt-6">
         <div className="flex flex-col-reverse">
           <button
-          onClick={() => dispatch(deleteBlog(blog._id))}
+          onClick={() => deleteBlog(blog._id)}
             className="shadow bg-green-900 hover:bg-green-950 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
             type="button"
           >

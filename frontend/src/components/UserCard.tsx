@@ -1,6 +1,4 @@
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../redux/store";
-import { blockUser } from "../features/admin/adminSlice";
+import { useBlockUserMutation } from "../features/user/userApiSlice";
 
 type UserProps = {
     user: UserType
@@ -8,7 +6,7 @@ type UserProps = {
 
 const UserCard = ({ user }: UserProps) => {
 
-  const dispatch: AppDispatch = useDispatch()
+  const [blockUser] = useBlockUserMutation()
 
   const content = (
     <tr className="bg-gray-300 border border-grey-500 text-black md:border-none block md:table-row">
@@ -18,8 +16,8 @@ const UserCard = ({ user }: UserProps) => {
     <td className="p-2 md:border md:border-grey-500 text-left block md:table-cell"><span className="inline-block w-1/3 md:hidden font-bold">Mobile</span>582-3X2-6233</td>
     <td className="p-2 md:border md:border-grey-500 text-left block md:table-cell">
         <span className="inline-block w-1/3 md:hidden font-bold">Actions</span>
-        <button onClick={() => dispatch(blockUser({ userId: user._id, action: 'BLOCK' }))} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded">Block</button>
-        <button onClick={() => dispatch(blockUser({ userId: user._id, action: 'UNBLOCK' }))} className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 border border-red-500 rounded">Unblock</button>
+        <button onClick={() => blockUser({ userId: user._id, action: 'BLOCK' })} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 border border-blue-500 rounded">Block</button>
+        <button onClick={() => blockUser({ userId: user._id, action: 'UNBLOCK' })} className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 border border-red-500 rounded">Unblock</button>
     </td>
 </tr>
   );

@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { SignUpDataType } from '../../pages/SignUp'
 import { SignInDataType } from '../../pages/SignIn'
+import { BlockUserArg } from '../../pages/AdminDashboard'
 
 export const userApiSlice = createApi({
     reducerPath: "userApiSlice",
@@ -18,13 +19,34 @@ export const userApiSlice = createApi({
         signIn: builder.mutation({
             query: (body: SignInDataType) => {
                 return {
-                    url: "signin",
+                    url: "/signin",
                     method: "post",
                     body
                 }
             }
-        }) 
+        }),
+        adminSignIn: builder.mutation({
+            query: (body: SignInDataType) => {
+                return {
+                    url: "/adminsignin",
+                    method: "post",
+                    body
+                }
+            }
+        }),
+        getAllUsers: builder.query({
+            query: () => "getallusers"
+        }),
+        blockUser: builder.mutation({
+            query: (body: BlockUserArg) => {
+                return {
+                    url: "/blockuser",
+                    method: "patch",
+                    body
+                }
+             }
+        })
     })
 })
 
-export const { useSignInMutation, useSignUpMutation } = userApiSlice
+export const { useSignInMutation, useSignUpMutation, useAdminSignInMutation, useGetAllUsersQuery, useBlockUserMutation } = userApiSlice

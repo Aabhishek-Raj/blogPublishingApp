@@ -2,19 +2,22 @@ import { ChangeEvent, MouseEvent, useState } from "react";
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../redux/store";
-import { adminSignIn } from "../features/user/userSlice";
 import { toast } from "react-toastify";
+import { useAdminSignInMutation } from "../features/user/userApiSlice";
+import { setCredentials } from "../features/user/authSlice";
 
 const AdminSignIn = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  
+    const navigate = useNavigate()
+    const dispatch: AppDispatch = useDispatch()
 
   const { email, password } = formData;
 
-  const navigate = useNavigate()
-  const dispatch: AppDispatch = useDispatch()
+  const [adminSignIn] = useAdminSignInMutation()
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData((prevState) => ({
@@ -32,7 +35,8 @@ const AdminSignIn = () => {
     };
 
     try {
-        await dispatch(adminSignIn(adminData))
+        const credentials = await adminSignIn(adminData)
+        dispatch(setCredentials(credentials))
         navigate('/admin')
         toast.success("Login sucessfully")
     } catch (err: any) {

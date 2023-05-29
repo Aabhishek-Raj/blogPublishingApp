@@ -1,18 +1,19 @@
-import { useEffect } from "react";
 import UserCard from "../components/UserCard";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../redux/store";
-import { getAllUsers } from "../features/admin/adminSlice";
+import { useGetAllUsersQuery } from "../features/user/userApiSlice";
+
+export type BlockUserArg = {
+    userId: string;
+    action: 'BLOCK' | 'UNBLOCK';
+  };
 
 const AdminDashboard = () => {
 
-    const dispatch: AppDispatch = useDispatch()
+    const { data: users } = useGetAllUsersQuery("userList")
+    console.log(users)
 
-    useEffect(() => {
-        dispatch(getAllUsers())
-    }, [dispatch])
-
-    const { users } = useSelector((state: RootState) => state.admin )
+    // useEffect(() => {
+    //     // getAllUsers()
+    // }, [dispatch])
 
   const content = (
     <table className="mt-6 min-w-full border-collapse block md:table">
@@ -28,7 +29,7 @@ const AdminDashboard = () => {
             <tbody className="block md:table-row-group">
                 
                 {
-                    users && users.map((user) => <UserCard key={user._id} user={user}/> )
+                    users && users.map((user: any) => <UserCard key={user._id} user={user}/> )
                 }
                
             </tbody>

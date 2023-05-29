@@ -5,7 +5,6 @@ import jwt from "jsonwebtoken";
 import { User } from "../model/userModel";
 
 export const signupUser = asyncHandler(async (req: Request, res: Response) => {
-  console.log('vannn')
   const { name, email, phone, password } = req.body;        
 
   if (!name || !password || !email || !phone) {
@@ -100,6 +99,7 @@ const generateToken = (id: string) => {
 };
 
 export const getAllUsers = asyncHandler(async (req: Request, res: Response) => {
+  console.log('vanna')
   const users = await User.find({});
 
   if (!users.length) {

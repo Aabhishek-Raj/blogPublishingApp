@@ -2,7 +2,6 @@ import 'dotenv/config'
 import express, { json } from "express";
 import rootRoutes from "./routes/root";
 import userRoutes from "./routes/user";
-import adminRoutes from "./routes/admin";
 import blogRoutes from './routes/blog'
 import mongoose from 'mongoose';
 import cors from "cors";
@@ -16,7 +15,6 @@ app.use(cors({ origin: "*" }));
 app.use("/", rootRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/blogs", blogRoutes);
-app.use("/api/admin", adminRoutes);
 
 mongoose.connect(process.env.MONGO_URI!)        
     .then(() => {

@@ -1,10 +1,9 @@
 import { ChangeEvent, MouseEvent, useState } from "react";
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from "react-redux";
-import { signUp } from "../features/user/userSlice";
 import { AppDispatch } from "../redux/store";
 import { toast } from "react-toastify";
-import { useSignInMutation, useSignUpMutation } from "../features/user/userApiSlice";
+import { useSignUpMutation } from "../features/user/userApiSlice";
 import { setCredentials } from "../features/user/authSlice";
 
 export type SignUpDataType = {

@@ -1,8 +1,8 @@
 import { useState, ChangeEvent, MouseEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { AppDispatch, RootState } from "../redux/store";
-import { saveBlog } from "../features/blog/blogSlice";
+import {  RootState } from "../redux/store";
+import { useSaveBlogMutation } from "../features/blog/blogApiSlice";
 
 export type BlogDataType = {
   userId: string;
@@ -17,16 +17,16 @@ const Home = () => {
     subject: "",
     blog: "",
   });
+  
+    const navigate = useNavigate();
 
   const { heading, subject, blog } = formData;
 
-  const navigate = useNavigate();
-  const dispatch: AppDispatch = useDispatch();
+  const [saveBlog] = useSaveBlogMutation()
 
   const { user } = useSelector(
     (state: RootState) => state.auth
   );
-  console.log(user)
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData((prevState) => ({
@@ -50,7 +50,7 @@ const Home = () => {
     };
 
     try {
-      await dispatch(saveBlog(blogData));
+      await saveBlog(blogData);
       navigate('/myblog')
       
     } catch (error) {

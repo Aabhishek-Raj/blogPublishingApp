@@ -21,9 +21,9 @@ export const saveBlog = asyncHandler(async (req: Request, res: Response) => {
 });
 
 export const getBlogs = asyncHandler(async (req: Request, res: Response) => {
-  const { userId } = req.query;
+  const userId = req.params.id;
 
-  if (!userId) {
+  if (!userId) {          
     res.status(401).json("You are not authorized");
     return;
   }
@@ -35,7 +35,7 @@ export const getBlogs = asyncHandler(async (req: Request, res: Response) => {
     return;
   }
   res.status(201).json(blogs);
-});
+}); 
 
 export const editBlog = asyncHandler(async (req: Request, res: Response) => {
   const { userId, heading, subject, blog } = req.body;
@@ -80,8 +80,10 @@ export const getLiveBlogs = asyncHandler(
 );
 
 export const publishBlog = asyncHandler( async(req: Request, res: Response) => {
-  const { blogId } = req.query
+  console.log('vannnnn')
+  const blogId = req.params.id
 
+  console.log(blogId)
   const updatedBlog = await Blog.updateOne({_id: blogId }, { status: "Publish"})
   console.log(updatedBlog)        
 
@@ -89,7 +91,7 @@ export const publishBlog = asyncHandler( async(req: Request, res: Response) => {
 })
 
 export const deleteBlog = asyncHandler( async(req: Request, res: Response) => {
-  const { blogId } = req.query
+  const blogId= req.query.id
   console.log('deleted')
 
   const deletedBlog = await Blog.deleteOne({_id: blogId })  

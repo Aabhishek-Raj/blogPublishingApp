@@ -4,13 +4,13 @@ import { saveBlog, getBlogs, editBlog, getPendingBlogs, publishBlog, getLiveBlog
 const router = express.Router();
 
 router.post("/save", saveBlog);
-router.get("/getblogs", getBlogs)
+router.get("/getblogs/:id", getBlogs)
 router.put("/editblog", editBlog)
 // router.put("/editblog", editBlog) 
 router.get("/getpendingblogs", getPendingBlogs)
 router.get("/getliveblogs", getLiveBlogs)
-router.get("/publishblog", publishBlog)
-router.get("/deleteblog", deleteBlog)
+router.put("/publishblog/:id", publishBlog)
+router.delete("/deleteblog/:id", deleteBlog)
 router.post("/rejectblog", rejectBlog)            
 
 export default router;        

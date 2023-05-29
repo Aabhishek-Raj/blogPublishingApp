@@ -1,25 +1,21 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Card from "../components/Card";
-import { useEffect } from "react";
-import { AppDispatch, RootState } from "../redux/store";
-import { getBlogs } from "../features/blog/blogSlice";
+import { useGetBlogsQuery } from "../features/blog/blogApiSlice";
+import { RootState } from "../redux/store";
 // import { useNavigate } from "react-router-dom";
 
 const MyBlog = () => {
   // const navigate = useNavigate();
-  const dispatch: AppDispatch = useDispatch();
-
-  const { blog } = useSelector(
-    (state: RootState) => state.blog
+  const { user } = useSelector(
+    (state: RootState) => state.auth
   );
 
-  useEffect(() => {
-    dispatch(getBlogs());
-  }, [dispatch]);
+  const { data: blog }= useGetBlogsQuery(user?._id)
+
 
   const content = (
     <div className="m-20 ">
-      {blog && blog.map((each) => (
+      {blog && blog.map((each: BlogType) => (
         <Card key={each._id} blog={each} pending={""}/>
         
       ))}

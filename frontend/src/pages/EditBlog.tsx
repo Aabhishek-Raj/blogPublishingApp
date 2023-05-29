@@ -1,8 +1,6 @@
 import { useState, ChangeEvent, MouseEvent } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { AppDispatch, RootState } from "../redux/store";
-import { editBlog } from "../features/blog/blogSlice";
+import { useEditBlogMutation, useGetBlogsQuery } from "../features/blog/blogApiSlice";
 
 export type BlogDataType = {
   userId: string;
@@ -13,19 +11,15 @@ export type BlogDataType = {
 
 const EditBlog = () => {
   const navigate = useNavigate();
-  const dispatch: AppDispatch = useDispatch();
 
-  // useEffect(() => {
-  //   dispatch(getBlogs());
-  // }, [dispatch]);
+  const { data: blog }= useGetBlogsQuery("getblogs")
 
-  const { blog, isLoading, isError, isSuccess } = useSelector(
-    (state: RootState) => state.blog
-  );
+  const [editBlog] = useEditBlogMutation()
+
   const { id } = useParams();
 
   const filteredBlog: BlogType | undefined = blog?.find(
-    (each) => each._id == id
+    (each: BlogType) => each._id == id
   );
   console.log(filteredBlog);
 
@@ -73,7 +67,7 @@ const EditBlog = () => {
       blog: blogdata,
     };
     try {
-      await dispatch(editBlog(updatedBlogData));
+      await editBlog(updatedBlogData);
       navigate("/myblog");
     } catch (err) {
       console.error(err);

@@ -1,12 +1,12 @@
 import { useState, ChangeEvent, MouseEvent } from "react";
-import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { AppDispatch } from "../redux/store";
-import { rejectBlog } from "../features/blog/blogSlice";
+import { useRejectBlogMutation } from "../features/blog/blogApiSlice";
 
 const AddReason = () => {
   const navigate = useNavigate();
-  const dispatch: AppDispatch = useDispatch();
+
+  const [rejectBlog] = useRejectBlogMutation()
+
   const { blogId } = useParams();
 
   const [reasonData, setReasonData] = useState({ reason: "" });
@@ -23,7 +23,7 @@ const AddReason = () => {
   const submitReject = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    dispatch(rejectBlog({ blogId, ...reasonData }));
+    rejectBlog({ blogId, ...reasonData });
   };
 
   const content = (
