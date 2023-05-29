@@ -4,6 +4,8 @@ import { useDispatch } from "react-redux";
 import { signUp } from "../features/user/userSlice";
 import { AppDispatch } from "../redux/store";
 import { toast } from "react-toastify";
+import { useSignInMutation, useSignUpMutation } from "../features/user/userApiSlice";
+import { setCredentials } from "../features/user/authSlice";
 
 export type SignUpDataType = {
   name: string;
@@ -19,11 +21,13 @@ const SignUp = () => {
     phone: 0,
     password: "",
   });
+  
+    const navigate = useNavigate()
+    const dispatch: AppDispatch = useDispatch()
+
+    const [signUp] = useSignUpMutation()
 
   const { name, email, phone, password } = formData;
-
-  const navigate = useNavigate()
-  const dispatch: AppDispatch = useDispatch()
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData((prevState) => ({
@@ -32,7 +36,7 @@ const SignUp = () => {
     }))
   }
 
-  const onSubmit = (e: MouseEvent<HTMLButtonElement>) => {
+  const onSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     const userData = {
@@ -44,7 +48,8 @@ const SignUp = () => {
 
     try {
   
-      dispatch(signUp(userData))
+      const credentialsData = await signUp(userData)
+      dispatch(setCredentials(credentialsData))
       navigate('/')
       toast.success("Registered Successfully")
     } catch (err: any) {

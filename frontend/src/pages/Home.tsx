@@ -23,9 +23,10 @@ const Home = () => {
   const navigate = useNavigate();
   const dispatch: AppDispatch = useDispatch();
 
-  const { user, isLoading, isError, isSuccess } = useSelector(
-    (state: RootState) => state.user
+  const { user } = useSelector(
+    (state: RootState) => state.auth
   );
+  console.log(user)
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData((prevState) => ({
@@ -42,7 +43,7 @@ const Home = () => {
     }
 
     const blogData = {
-      userId: user._id,
+      userId: user?._id,
       heading,
       subject,
       blog,

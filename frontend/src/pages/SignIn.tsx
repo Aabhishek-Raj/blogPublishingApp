@@ -1,9 +1,10 @@
 import { ChangeEvent, MouseEvent, useState } from "react";
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from "react-redux";
-import { signIn } from "../features/user/userSlice";
 import { AppDispatch } from "../redux/store";
 import { toast } from "react-toastify";
+import { setCredentials } from "../features/user/authSlice";
+import { useSignInMutation } from "../features/user/userApiSlice";
 
 export type SignInDataType = {
   email: string;
@@ -16,10 +17,13 @@ const SignIn = () => {
     password: "",
   });
 
-  const { email, password } = formData;
-
   const navigate = useNavigate()
   const dispatch: AppDispatch = useDispatch()
+
+  const [signIn] = useSignInMutation()
+
+  const { email, password } = formData;
+
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData((prevState) => ({
@@ -28,7 +32,7 @@ const SignIn = () => {
     }))
   }
 
-  const onSubmit = (e: MouseEvent<HTMLButtonElement>) => {
+  const onSubmit = async  (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     const userData = {
@@ -37,7 +41,8 @@ const SignIn = () => {
     };
 try {
   
-  dispatch(signIn(userData))
+  const credentialsData = await signIn(userData)
+  dispatch(setCredentials(credentialsData))
   navigate('/')
   toast.success("Login sucessfully")
 } catch (err: any) {
