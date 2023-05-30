@@ -91,8 +91,8 @@ export const publishBlog = asyncHandler( async(req: Request, res: Response) => {
 })
 
 export const deleteBlog = asyncHandler( async(req: Request, res: Response) => {
-  const blogId= req.query.id
   console.log('deleted')
+  const blogId= req.query.id
 
   const deletedBlog = await Blog.deleteOne({_id: blogId })  
   console.log(deletedBlog)      

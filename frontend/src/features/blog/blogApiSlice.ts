@@ -42,6 +42,7 @@ export const blogApiSlice = createApi({
     }),
     deleteBlog: builder.mutation({
         query: (body) => {
+            console.log('ffffffffffffffffffffffffffffffffffffffffffffff')
             return {
                 url: `/deleteblog/${body}`,
                 method: "delete",

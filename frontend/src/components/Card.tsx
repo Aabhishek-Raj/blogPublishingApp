@@ -84,7 +84,7 @@ const handleBlog = async (blogId: any, action: string) => {
           <dl className="flex mt-6">
           <div className="flex flex-col-reverse">
             <button
-            
+            onClick={() => deleteBlog(blog._id)}
               className="shadow bg-green-900 hover:bg-green-950 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
               type="button"
             >

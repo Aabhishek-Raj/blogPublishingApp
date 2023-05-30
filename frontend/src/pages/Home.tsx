@@ -1,8 +1,9 @@
 import { useState, ChangeEvent, MouseEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {  RootState } from "../redux/store";
+import { RootState } from "../redux/store";
 import { useSaveBlogMutation } from "../features/blog/blogApiSlice";
+import FileUpload from "../components/FileUpload";
 
 export type BlogDataType = {
   userId: string;
@@ -17,16 +18,14 @@ const Home = () => {
     subject: "",
     blog: "",
   });
-  
-    const navigate = useNavigate();
+
+  const navigate = useNavigate();
 
   const { heading, subject, blog } = formData;
 
-  const [saveBlog] = useSaveBlogMutation()
+  const [saveBlog] = useSaveBlogMutation();
 
-  const { user } = useSelector(
-    (state: RootState) => state.auth
-  );
+  const { user } = useSelector((state: RootState) => state.auth);
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData((prevState) => ({
@@ -51,10 +50,9 @@ const Home = () => {
 
     try {
       await saveBlog(blogData);
-      navigate('/myblog')
-      
+      navigate("/myblog");
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   };
 
@@ -112,6 +110,11 @@ const Home = () => {
               className=" no-resize appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-300 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 h-48 resize-none"
               id="message"
             />
+          </div>
+        </div>
+        <div className=" flex flex-wrap -mx-3 mb-6">
+          <div className="w-full px-12">
+            <FileUpload />
           </div>
         </div>
         <div className="md:flex md:items-center">

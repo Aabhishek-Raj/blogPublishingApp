@@ -17,7 +17,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const content = (
-    <div className="w-screen h-screen bg-green-100">
+    <div className="overflow-scroll w-screen h-screen bg-green-100">
       <ToastContainer />
       <Routes>
         <Route path="/" element={<Layout />}>
